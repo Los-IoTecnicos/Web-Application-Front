@@ -1,0 +1,72 @@
+<app-navbar></app-navbar>
+<div class="container">
+    <h1>Colaboradores</h1>
+  
+    <div class="encargado-container">
+        <!-- Encargado del restaurante (estático) -->
+        <div class="card">
+          <img src="assets/images/chef.png" alt="Encargado">
+          <div>
+            <p>Nombre: {{ encargado.nombre }}</p>
+            <p>Email: {{ encargado.email }}</p>
+            <p>Celular: {{ encargado.celular }}</p>
+          </div>
+        </div>
+      
+        <!-- Botón para enviar invitación -->
+        <div class="invitation-section">
+          <p>¿Deseas agregar un nuevo miembro?</p>
+          <button (click)="abrirFormulario()">Mandar invitación</button>
+        </div>
+      </div>
+  
+    <!-- Modal para enviar invitación -->
+    <div *ngIf="mostrarFormulario" class="modal">
+        <div class="modal-content">
+        <span (click)="cerrarFormulario()" class="close">&times;</span>
+        <form (submit)="enviarInvitacion()">
+            <label for="email">Correo electrónico:</label>
+            <input type="email" id="email" name="email" [(ngModel)]="nuevoMiembro.email" required>
+    
+            <label for="rol">Rol:</label>
+            <select id="rol" name="rol" [(ngModel)]="nuevoMiembro.rol" required>
+            <option value="restaurante">Personal de restaurante</option>
+            <option value="mantenimiento">Personal de mantenimiento</option>
+            </select>
+    
+            <button type="submit">Enviar invitación</button>
+        </form>
+        </div>
+    </div>
+  
+    <!-- Mensaje de confirmación de solicitud (alerta emergente) -->
+    <div class="alert" [ngClass]="{ 'show': mostrarConfirmacion }">
+        Solicitud enviada.
+    </div>
+  
+    <h2>Personal de restaurante autorizado</h2>
+    <div class="personal-section">
+      <div class="card" *ngFor="let miembro of personalRestaurante">
+        <img src="assets/images/mesera.png" alt="{{ miembro.nombre }}">
+        <div>
+          <p>Nombre: {{ miembro.nombre }}</p>
+          <p>Email: {{ miembro.email }}</p>
+          <p>Celular: {{ miembro.celular }}</p>
+          <p>Estado: <span class="estado-pendiente">Pendiente</span></p>
+        </div>
+      </div>
+    </div>
+    
+    <h2>Personal de mantenimiento autorizado</h2>
+    <div class="personal-section">
+      <div class="card" *ngFor="let miembro of personalMantenimiento">
+        <img src="assets/images/tecnico.png" alt="{{ miembro.nombre }}">
+        <div>
+          <p>Nombre: {{ miembro.nombre }}</p>
+          <p>Email: {{ miembro.email }}</p>
+          <p>Celular: {{ miembro.celular }}</p>
+          <p>Estado: <span class="estado-pendiente">Pendiente</span></p>
+        </div>
+      </div>
+    </div>
+  
