@@ -31,6 +31,7 @@
 label {
   margin-bottom: 5px; /* Espacio entre la etiqueta y el input */
   font-weight: bold; /* Negrita para las etiquetas */
+  z-index: 0;
 }
 
 input[type="text"],
@@ -51,10 +52,11 @@ textarea:focus {
   border: 2px solid #0072ff;
   outline: none;
 }
+
 .file-upload {
   display: flex;
   align-items: center;
-   border: 2px dashed #4A90E2;
+  border: 2px dashed #4A90E2;
   border-radius: 5px;
   padding: 10px;
   cursor: pointer;
@@ -103,7 +105,6 @@ textarea:focus {
   height: auto;
 }
 
-
 .delete-button {
   position: absolute;
   top: 1px;
@@ -124,7 +125,6 @@ textarea:focus {
 .delete-button:hover {
   background: darkgray;
 }
-
 
 .product-grid {
   display: grid;
@@ -157,6 +157,7 @@ button {
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
+  z-index: 1; /* Asegura que el botón tenga un z-index bajo */
 }
 
 button:hover {
@@ -168,3 +169,33 @@ button:focus {
   outline: none;
 }
 
+.product-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; /* Aumenta el z-index del pop-up */
+}
+
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+
+  z-index: 1000; /* Asegura que el contenido del pop-up tenga un z-index alto */
+}
+
+.popup-button-container {
+  position: absolute;
+  right: 20px;
+  z-index: 1;
+  
+  top: 10%;
+}

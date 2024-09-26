@@ -60,20 +60,36 @@
     </form>
   </div>
 
-  <!-- Segunda columna: Lista de productos -->
-  <div class="product-list">
-    <h2>Lista de Productos Temporales</h2>
-
-    <div class="product-grid">
-      <div class="product-card" *ngFor="let product of tempProducts">
-        <img [src]="product.photo[0]" alt="Foto del producto" class="product-photo">
-        <h3>{{ product.nombre }}</h3>
-        <p>Marca: {{ product.marca }}</p>
-        <p>Fecha: {{ product.fecha }}</p>
-
-        <button mat-raised-button color="accent" (click)="viewDetails(product)">Ver Detalle</button>
-        <button mat-raised-button color="warn" (click)="deleteProduct(product)">Borrar</button>
+    <!-- Segunda columna: Lista de productos -->
+    <div class="product-list">
+      <h2>Lista de Productos Temporales</h2>
+  
+      <div class="product-grid">
+        <div class="product-card" *ngFor="let product of tempProducts">
+          <img [src]="product.photo[0]" alt="Foto del producto" class="product-photo">
+          <h3>{{ product.nombre }}</h3>
+          <p>Marca: {{ product.marca }}</p>
+          <p>Fecha: {{ product.fecha }}</p>
+  
+          <button mat-raised-button color="accent" (click)="viewDetails(product)">Ver Detalle</button>
+          <button mat-raised-button color="warn" (click)="deleteProduct(product)">Borrar</button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Botón para mostrar el pop-up -->
+    <div class="popup-button-container">
+      <button mat-raised-button style="padding: 20px;" color="primary" (click)="togglePopup()">Historial</button>
+    </div>
+  
+    <!-- Pop-up de nombres de productos -->
+    <div class="product-popup" *ngIf="showPopup">
+      <div class="popup-content">
+        <h2>Historial</h2>
+        <ul>
+          <li *ngFor="let product of tempProducts">{{ product.nombre }}</li>
+        </ul>
+        <button mat-raised-button color="warn" (click)="togglePopup()">Cerrar</button>
       </div>
     </div>
   </div>
-</div>

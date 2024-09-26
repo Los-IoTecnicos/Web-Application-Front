@@ -12,8 +12,9 @@ export class InventaryComponent {
   inventoryForm: FormGroup;
   tempProducts: any[] = [];
   selectedFiles: string[] = [];
+  showPopup: boolean = false; // Controla el pop-up
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private imageCompress: NgxImageCompressService) {  // Inyectar el servicio
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private imageCompress: NgxImageCompressService) {
     this.inventoryForm = this.formBuilder.group({
       nombre: ['', Validators.required],
       estado: ['', Validators.required],
@@ -26,22 +27,7 @@ export class InventaryComponent {
   }
 
   onFileSelected(event: any) {
-    const files = event.target.files;
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        const imageBase64 = e.target.result;
-
-        // Comprimir la imagen antes de almacenarla
-        this.imageCompress.compressFile(imageBase64, -1, 50, 50).then(
-          compressedImage => {
-            this.selectedFiles.push(compressedImage);  // Guardar la imagen comprimida
-          }
-        );
-      };
-      reader.readAsDataURL(file);
-    }
+    // Manejo de archivos...
   }
 
   addProduct() {
@@ -66,6 +52,10 @@ export class InventaryComponent {
       this.inventoryForm.reset();
       this.selectedFiles = [];
     }
+  }
+
+  togglePopup() {
+    this.showPopup = !this.showPopup; // Alterna el estado del pop-up
   }
 
   viewDetails(product: any) {
