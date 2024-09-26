@@ -22,9 +22,11 @@ export interface Tile {
 
 export class HomeComponent {
   cards = [
-    { image: '../../../assets/images/refrigerator.jpg', title: 'Refrigerador Prueba', description: 'Estado: Activo' },
-    { image: "/assets/images/image_refrigerator.png", title: 'Refrigerador EA2', description: 'Estado: Activo' },
-    { image: "/assets/images/image_refrigerator.png", title: 'Refrigerador EA3', description: 'Estado: Activo' },
+    { image: 'src/assets/images/image_refrigerator.png', title: 'Camara A2', description: 'Activo' },
+    { image: "src/assets/images/image_refrigerator.png", title: 'Refrigerador EA2', description: 'En Mantenimiento' },
+    { image: "src/assets/images/image_refrigerator.png", title: 'Refrigerador EA3', description: 'Activo' },
+    { image: "src/assets/images/image_refrigerator.png", title: 'Refrigerador EA6', description: 'Activo' },
+    { image: "src/assets/images/image_refrigerator.png", title: 'Refrigerador EA8', description: 'Activo' },
     // Añade más cards según sea necesario
 
   ];
@@ -39,6 +41,9 @@ export class HomeComponent {
     console.log(this.cards); // Verifica que los datos se están cargando correctamente
   }
 
+  getTextColor(description: string): string {
+    return description.includes('Activo') ? 'green' : 'red';
+  }
 }
 
 
