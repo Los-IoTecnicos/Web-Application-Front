@@ -18,14 +18,32 @@
   <section class="cards">
     <h2 class="centered-text">Equipos de Refrigeración</h2>
     <div class="card-grid">
-      <div class="card" *ngFor="let card of cards">
-        <img [src]="card.image" alt="Card image">
+      <div class="card" *ngFor="let refrigerator of refrigerators">
+        <img [src]="refrigerator.image" alt="Card image">
         <div class="card-info">
-          <h3 style="font-size: 20px;" class="responsive-text">{{ card.title }}</h3>
-          <p [ngStyle]="{'color': getTextColor(card.description)}" style="font-weight: bold; font-size: 1.5rem;">{{ card.description }}</p>
-          <p style="font-weight: bold; font-size: 16px;" class="responsive-text">{{card.capacity}}</p>
+          <h3 style="font-size: 20px;" class="responsive-text">{{ refrigerator.title }}</h3>
+          <p [ngStyle]="{'color': getTextColor(refrigerator.description)}" style="font-weight: bold; font-size: 1.5rem;">{{ refrigerator.description }}</p>
+          <p style="font-weight: bold; font-size: 16px;" class="responsive-text">{{refrigerator.capacity}}</p>
+          <button class="btn-details" (click)="viewDetails(refrigerator)">Ver detalles</button>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Modal para mostrar detalles -->
+  <div *ngIf="mostrarDetalles" class="modal">
+    <div class="modal-content">
+      <span (click)="cerrarDetalles()" class="close">&times;</span>
+      <h2>{{ selectedRefrigerator?.title }}</h2>
+      <p><strong>Estado:</strong> {{ selectedRefrigerator?.description }}</p>
+      <p><strong>Capacidad:</strong> {{ selectedRefrigerator?.capacity }}</p>
+      <p><strong>Temperatura:</strong> {{ selectedRefrigerator?.temperature }}</p>
+      <p><strong>Humedad:</strong> {{ selectedRefrigerator?.humidity }}</p>
+      <p><strong>Último mantenimiento:</strong> {{ selectedRefrigerator?.lastMaintenance }}</p>
+      <p><strong>Próximo mantenimiento:</strong> {{ selectedRefrigerator?.nextMaintenance }}</p>
+      <p><strong>Modelo:</strong> {{ selectedRefrigerator?.model }}</p>
+      <p><strong>Número de serie:</strong> {{ selectedRefrigerator?.serialNumber }}</p>
+      <p><strong>Fecha de instalación:</strong> {{ selectedRefrigerator?.installedDate }}</p>
+    </div>
+  </div>
 </div>
