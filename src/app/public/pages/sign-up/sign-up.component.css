@@ -1,0 +1,97 @@
+/* Contenedor principal centrado */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to right, #00c6ff, #0072ff);
+}
+
+.register-form {
+  background-color: white;
+  padding: 40px;
+  border-radius: 18px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 400px;
+  height: auto;
+}
+
+.logo {
+  width: 120px;
+  margin-bottom: 20px;
+  border-radius: 50%;
+}
+
+h2 {
+  color: #0072ff;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+  position: relative;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #0072ff;
+  border-radius: 5px;
+  outline: none;
+  margin-bottom: 5px;
+}
+
+input.ng-invalid.ng-touched {
+  border-color: red;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  font-weight: 500;
+  min-height: 16px;
+  margin-top: 4px;
+  position: absolute;
+  bottom: -20px;
+}
+
+input:focus {
+  border-color: #00c6ff;
+}
+
+.btn-create-account {
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(to right, #0072ff, #00c6ff);
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn-create-account:hover {
+  background: linear-gradient(to right, #00a1e0, #005f9e);
+}
+
+.login-section {
+  margin-top: 20px;
+}
+
+.login-section a {
+  color: #0072ff;
+  text-decoration: none;
+}
+
+.login-section a:hover {
+  text-decoration: underline;
+}
