@@ -69,7 +69,16 @@ export class InventaryComponent {
   }
 
   viewDetails(product: any) {
-    alert(`Detalles del producto: \n${JSON.stringify(product, null, 2)}`);
+    const details = `
+      Nombre: ${product.nombre}
+      Estado: ${product.estado}
+      Fecha de Ingreso: ${product.fecha}
+      Marca: ${product.marca}
+      Cantidad: ${product.cantidad}
+      Rubro: ${product.rubro}
+      Detalles: ${product.detalles}
+    `;
+    alert(details);
   }
 
   deleteProduct(product: any) {
