@@ -2,7 +2,7 @@
 
 <div class="container">
   <section class="notifications">
-    <h2 class="centered-text">Notificaciones</h2>
+    <h2 class="centered-text">Opciones</h2>
     <mat-grid-list cols="4" rowHeight="100px">
       <mat-grid-tile
               *ngFor="let tile of tiles"
@@ -10,7 +10,7 @@
               [rowspan]="tile.rows"
               [style.background]="tile.color"
               class="custom-tile">
-        <img src="" alt="{{tile.text}}" style="width: 100%; height: 100%; object-fit: cover; text-align: center ">
+        <p style="object-fit: fill; text-align: center; font-size: 1.2rem;font-weight: bold;" class="responsive-text">{{tile.text}}</p>
       </mat-grid-tile>
     </mat-grid-list>
   </section>
@@ -21,8 +21,9 @@
       <div class="card" *ngFor="let card of cards">
         <img [src]="card.image" alt="Card image">
         <div class="card-info">
-          <h3>{{ card.title }}</h3>
-          <p [ngStyle]="{'color': getTextColor(card.description)}">{{ card.description }}</p>
+          <h3 style="font-size: 20px;" class="responsive-text">{{ card.title }}</h3>
+          <p [ngStyle]="{'color': getTextColor(card.description)}" style="font-weight: bold; font-size: 1.5rem;">{{ card.description }}</p>
+          <p style="font-weight: bold; font-size: 16px;" class="responsive-text">{{card.capacity}}</p>
         </div>
       </div>
     </div>
