@@ -1,0 +1,28 @@
+.container {
+  padding: 2em;
+}
+
+.notifications, .cards {
+  margin-bottom: 2em;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1em;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+}
+
+.card-info {
+  padding: 1em;
+}

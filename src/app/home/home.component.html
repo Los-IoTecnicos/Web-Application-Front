@@ -1,0 +1,21 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+  <section class="notifications">
+    <h2>Notificaciones</h2>
+    <!-- Aquí puedes añadir el contenido de las notificaciones -->
+  </section>
+
+  <section class="cards">
+    <h2>Cards</h2>
+    <div class="card-grid">
+      <div class="card" *ngFor="let card of cards">
+        <img [src]="card.image" alt="Card image">
+        <div class="card-info">
+          <h3>{{ card.title }}</h3>
+          <p>{{ card.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
