@@ -1,0 +1,34 @@
+/* Estilo del toolbar */
+.toolbar {
+  background: linear-gradient(to right, #0072ff, #00c6ff);
+  color: white;
+  height: 70px;
+}
+
+/* Espaciador para empujar botones hacia el lado derecho */
+.spacer {
+  flex: 1 1 auto;
+}
+
+/* Estilos de los botones de navegación */
+.nav-button {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  border-radius: 5px;
+  padding: 15px 20px;
+}
+
+.nav-button:hover {
+  border: 2px solid white;
+  border-radius: 12px;
+  color: #2204b5;
+  transform: scale(1.1); /* Aumenta el tamaño del botón cuando el mouse pasa por encima */
+}
+
+/* Botón de configuraciones separado */
+.settings-button {
+  color: white;
+}
+
