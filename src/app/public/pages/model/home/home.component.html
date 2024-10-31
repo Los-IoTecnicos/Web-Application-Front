@@ -1,22 +1,10 @@
 <app-side-navigator-bar></app-side-navigator-bar>
 
 <div class="container">
-  <section class="notifications">
-    <h2 class="centered-text">Opciones</h2>
-    <mat-grid-list cols="4" rowHeight="100px">
-      <mat-grid-tile
-        *ngFor="let tile of tiles"
-        [colspan]="tile.cols"
-        [rowspan]="tile.rows"
-        [style.background]="tile.color"
-        class="custom-tile">
-        <p style="object-fit: fill; text-align: center; font-size: 1.2rem;font-weight: bold;" class="responsive-text">{{tile.text}}</p>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </section>
+  
 
   <section class="cards">
-    <h2 class="centered-text">Equipos de Refrigeración</h2>
+    <h2 class="centered-text">Refrigeration Equipment</h2>
     <div class="card-grid">
       <div class="card" *ngFor="let card of cards">
         <img [src]="card.image" alt="Card image">
