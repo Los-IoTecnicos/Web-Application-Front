@@ -3,46 +3,46 @@
 <div class="inventory-container">
   <!-- Primera columna: Formulario de Inventario -->
   <div class="inventory-form">
-    <h2>Agregar Producto al Inventario</h2>
+    <h2>Add Product to Inventory</h2>
 
     <form [formGroup]="inventoryForm" (ngSubmit)="addProduct()" class="form-box">
       <div class="form-group">
-        <label for="nombre">Nombre del Producto</label> <br>
-        <input id="nombre" formControlName="nombre" type="text" placeholder="Nombre del producto" required>
+        <label for="nombre">Product Name</label> <br>
+        <input id="nombre" formControlName="nombre" type="text" placeholder="Product Name" required>
       </div>
 
       <div class="form-group">
-        <label for="estado">Estado</label> <br>
-        <input id="estado" formControlName="estado" type="text" placeholder="Estado del producto">
+        <label for="estado">Product status</label> <br>
+        <input id="estado" formControlName="estado" type="text" placeholder="Product status">
       </div>
 
       <div class="form-group">
-        <label for="fecha">Fecha de Ingreso</label> <br>
+        <label for="fecha">Entry Date</label> <br>
         <input id="fecha" formControlName="fecha" type="date">
       </div>
 
       <div class="form-group">
-        <label for="marca">Marca</label> <br>
-        <input id="marca" formControlName="marca" type="text" placeholder="Marca">
+        <label for="marca">Brand</label> <br>
+        <input id="marca" formControlName="marca" type="text" placeholder="Brand">
       </div>
 
       <div class="form-group">
-        <label for="cantidad">Cantidad</label><br>
-        <input id="cantidad" formControlName="cantidad" type="number" placeholder="Cantidad">
+        <label for="cantidad">Amount</label><br>
+        <input id="cantidad" formControlName="cantidad" type="number" placeholder="Amount">
       </div>
 
       <div class="form-group">
-        <label for="rubro">Rubro</label> <br>
-        <input id="rubro" formControlName="rubro" type="text" placeholder="Rubro">
+        <label for="rubro">Category</label> <br>
+        <input id="rubro" formControlName="rubro" type="text" placeholder="Category">
       </div>
 
       <div class="form-group">
-        <label for="detalles">Detalles</label> <br>
-        <textarea id="detalles" formControlName="detalles" placeholder="Descripción detallada"></textarea>
+        <label for="detalles">Details</label> <br>
+        <textarea id="detalles" formControlName="detalles" placeholder="Detailed description"></textarea>
       </div>
 
       <div class="form-group">
-        <label for="photo">Cargar fotos de producto</label>
+        <label for="photo">Upload product photos</label>
         <div class="file-upload">
           <label class="file-upload-label">
             <input type="file" (change)="onFileSelected($event)" accept="image/*" multiple />
@@ -56,23 +56,23 @@
         </div>
       </div>
 
-      <button type="submit" mat-raised-button color="primary">Agregar Producto</button>
+      <button type="submit" mat-raised-button color="primary">Add Product</button>
     </form>
   </div>
 
   <!-- Segunda columna: Lista de productos -->
   <div class="product-list">
-    <h2>Lista de Productos Temporales</h2>
+    <h2>Temporary Products List</h2>
 
     <div class="product-grid">
       <div class="product-card" *ngFor="let product of tempProducts">
-        <img [src]="product.photo[0]" alt="Foto del producto" class="product-photo">
+        <img [src]="product.photo[0]" alt="Product photo" class="product-photo">
         <h3>{{ product.nombre }}</h3>
-        <p>Marca: {{ product.marca }}</p>
-        <p>Fecha: {{ product.fecha }}</p>
+        <p>Brand: {{ product.marca }}</p>
+        <p>Date: {{ product.fecha }}</p>
 
-        <button mat-raised-button color="accent" (click)="viewDetails(product)">Ver Detalle</button>
-        <button mat-raised-button color="warn" (click)="deleteProduct(product)">Borrar</button>
+        <button mat-raised-button color="accent" (click)="viewDetails(product)">See Detail</button>
+        <button mat-raised-button color="warn" (click)="deleteProduct(product)">Delete</button>
       </div>
     </div>
   </div>
