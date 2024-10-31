@@ -12,7 +12,7 @@
       <!-- Formulario de inicio de sesión -->
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
         <div class="form-group">
-          <label for="email"><strong style="font-weight: 600">Correo Electrónico</strong></label>
+          <label for="email"><strong style="font-weight: 600">Email</strong></label>
           <div class="input-container">
           <span class="input-icon">
             <i class="fas fa-envelope"></i>
@@ -23,19 +23,19 @@
               formControlName="email"
               [ngClass]="{ 'input-invalid': submitted && f['email'].errors }"
               class="form-input"
-              placeholder="Ingrese su correo electrónico"
+              placeholder="Enter your email"
             />
           </div>
           <div *ngIf="submitted && f['email'].errors" class="error-message">
           <span *ngIf="f['email'].errors?.['required']">
-            El email es obligatorio
+            Email is mandatory
           </span>
-            <span *ngIf="f['email'].errors?.['email']">El email no es válido</span>
+            <span *ngIf="f['email'].errors?.['email']">The email is not valid</span>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="password"><strong style="font-weight: 600">Contraseña</strong></label>
+          <label for="password"><strong style="font-weight: 600">Password</strong></label>
           <div class="input-container">
 
             <input
@@ -44,19 +44,19 @@
               formControlName="password"
               [ngClass]="{ 'input-invalid': submitted && f['password'].errors }"
               class="form-input"
-              placeholder="Ingrese su contraseña"
+              placeholder="Enter your password"
             />
             <span class="password-toggle" (click)="showPassword = !showPassword">
           </span>
           </div>
           <div *ngIf="submitted && f['password'].errors" class="error-message">
           <span *ngIf="f['password'].errors?.['required']">
-            La contraseña es obligatoria
+            Password is required
           </span>
           </div>
         </div>
 
-        <button type="submit" class="login-button" style="font-weight: bold">Iniciar Sesión</button>
+        <button type="submit" class="login-button" style="font-weight: bold">Login</button>
 
         <div *ngIf="errorMessage" class="error-message text-center">
           {{ errorMessage }}
@@ -64,13 +64,13 @@
       </form>
 <br><br>
       <div class="register-link">
-        ¿No tienes cuenta?
-        <a routerLink="/register"><strong style="font-weight: 500">Regístrate aquí</strong></a>
+        Don't have an account?
+        <a routerLink="/register"><strong style="font-weight: 500">Register here</strong></a>
       </div>
     </div>
   </div>
 
   <!-- Mensaje emergente -->
-  <div *ngIf="showPopup" class="alert-popup">¡Inicio de sesión fallido!</div>
+  <div *ngIf="showPopup" class="alert-popup">Login failed!</div>
 
 </div>
