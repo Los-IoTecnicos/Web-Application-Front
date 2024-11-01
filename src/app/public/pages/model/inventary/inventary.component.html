@@ -8,37 +8,95 @@
     <form [formGroup]="inventoryForm" (ngSubmit)="addProduct()" class="form-box">
       <div class="form-group">
         <label for="nombre">Product Name</label> <br>
-        <input id="nombre" formControlName="nombre" type="text" placeholder="Product Name" required>
+        <input
+          id="nombre"
+          formControlName="nombre"
+          type="text"
+          placeholder="Product Name"
+          [ngClass]="{ 'input-invalid': submitted && f['nombre'].invalid }"
+        />
+        <div *ngIf="submitted && f['nombre'].invalid" class="error-message">
+          <span *ngIf="f['nombre'].errors?.['required']">Product Name is mandatory</span>
+        </div>
       </div>
 
       <div class="form-group">
-        <label for="estado">Product status</label> <br>
-        <input id="estado" formControlName="estado" type="text" placeholder="Product status">
+        <label for="estado">Product Status</label> <br>
+        <input
+          id="estado"
+          formControlName="estado"
+          type="text"
+          placeholder="Product status"
+          [ngClass]="{ 'input-invalid': submitted && f['estado'].invalid }"
+        />
+        <div *ngIf="submitted && f['estado'].invalid" class="error-message">
+          <span *ngIf="f['estado'].errors?.['required']">Product Status is mandatory</span>
+        </div>
       </div>
 
       <div class="form-group">
         <label for="fecha">Entry Date</label> <br>
-        <input id="fecha" formControlName="fecha" type="date">
+        <input
+          id="fecha"
+          formControlName="fecha"
+          type="date"
+          [ngClass]="{ 'input-invalid': submitted && f['fecha'].invalid }"
+        />
+        <div *ngIf="submitted && f['fecha'].invalid" class="error-message">
+          <span *ngIf="f['fecha'].errors?.['required']">Entry date is mandatory</span>
+        </div>
       </div>
 
       <div class="form-group">
         <label for="marca">Brand</label> <br>
-        <input id="marca" formControlName="marca" type="text" placeholder="Brand">
+        <input
+          id="marca"
+          formControlName="marca"
+          type="text"
+          placeholder="Brand"
+          [ngClass]="{ 'input-invalid': submitted && f['marca'].invalid }"
+        />
+        <div *ngIf="submitted && f['marca'].invalid" class="error-message">
+          <span *ngIf="f['marca'].errors?.['required']">Brand is mandatory</span>
+        </div>
       </div>
 
       <div class="form-group">
         <label for="cantidad">Amount</label><br>
-        <input id="cantidad" formControlName="cantidad" type="number" placeholder="Amount">
+        <input
+          id="cantidad"
+          formControlName="cantidad"
+          type="number"
+          placeholder="Amount"
+          [ngClass]="{ 'input-invalid': submitted && f['cantidad'].invalid }"
+        />
+        <div *ngIf="submitted && f['cantidad'].invalid" class="error-message">
+          <span *ngIf="f['cantidad'].errors?.['required']">Amount is mandatory</span>
+          <span *ngIf="f['cantidad'].errors?.['min']">Amount must be greater than 0</span>
+        </div>
       </div>
 
       <div class="form-group">
         <label for="rubro">Category</label> <br>
-        <input id="rubro" formControlName="rubro" type="text" placeholder="Category">
+        <input
+          id="rubro"
+          formControlName="rubro"
+          type="text"
+          placeholder="Category"
+          [ngClass]="{ 'input-invalid': submitted && f['rubro'].invalid }"
+        />
+        <div *ngIf="submitted && f['rubro'].invalid" class="error-message">
+          <span *ngIf="f['rubro'].errors?.['required']">Category is mandatory</span>
+        </div>
       </div>
 
       <div class="form-group">
         <label for="detalles">Details</label> <br>
-        <textarea id="detalles" formControlName="detalles" placeholder="Detailed description"></textarea>
+        <textarea
+          id="detalles"
+          formControlName="detalles"
+          placeholder="Detailed description"
+        ></textarea>
       </div>
 
       <div class="form-group">
