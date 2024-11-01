@@ -167,4 +167,13 @@ button:hover {
 button:focus {
   outline: none;
 }
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.input-invalid {
+  border-color: red !important;
+}
 
