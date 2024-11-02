@@ -5,7 +5,7 @@
   padding: 2em;
 }
 
-.notifications, .cards {
+.cards {
   margin-bottom: 2em;
 }
 
@@ -19,6 +19,8 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   overflow: hidden;
+  background-color: #ffffff; /* Fondo blanco para mejor contraste */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
 .card img {
@@ -30,46 +32,72 @@
   padding: 1em;
 }
 
-.custom-tile {
-
-  font-family: 'Arial', sans-serif; /* Cambia 'Arial' por la fuente que prefieras */
-  font-size: 16px; /* Ajusta el tamaño de la fuente según sea necesario */
-  color: white; /* Cambia el color del texto si es necesario */
+.add-equipment-button {
+  margin: 1em 0;
+  padding: 1em 2em;
+  background-color: #9B59B6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.5em;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.custom-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.add-equipment-button:hover {
+  background-color: #9148ac;
+  transform: scale(1.05);
 }
 
-.tile-text {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente para el texto */
-  text-align: center;
-}
-.centered-text {
-  font-family: 'Secular One', sans-serif;
-  text-align: center;
+.add-equipment-form {
+  margin-top: 1em;
+  padding: 2em;
+  background-color: #f9f9f9; /* Fondo gris claro */
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
-.responsive-text {
-  font-size: 1.2rem;
+.form-group {
+  margin-bottom: 20px;
 }
 
-@media (max-width: 600px) {
-  .responsive-text {
-    font-size: 1rem;
-  }
+label {
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 
-@media (max-width: 400px) {
-  .responsive-text {
-    font-size: 0.8rem;
-  }
+input[type="text"],
+input[type="date"],
+textarea,
+input[type="file"] {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  width: 100%; /* Cambiar a 100% para que sea más amigable visualmente */
+  transition: border-color 0.3s;
 }
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+textarea:focus {
+  border: 2px solid #007bff;
+  outline: none;
+}
+
+.delete-button {
+  background-color: #dc3545;  /* Rojo para destacar */
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+  width: 100%;  /* Ajustar al ancho de la tarjeta */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: #b02a37;  /* Color más oscuro al hacer hover */
+  transform: scale(1.05);
+}
+
