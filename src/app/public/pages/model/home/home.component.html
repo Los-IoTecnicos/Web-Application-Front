@@ -1,19 +1,108 @@
 <app-side-navigator-bar></app-side-navigator-bar>
 
 <div class="container">
-  
-
+  <!-- Sección de Equipos de Refrigeración -->
   <section class="cards">
     <h2 class="centered-text">Refrigeration Equipment</h2>
     <div class="card-grid">
       <div class="card" *ngFor="let card of cards">
-        <img [src]="card.image" alt="Card image">
+        <img [src]="card.image" alt="Imagen del equipo">
         <div class="card-info">
-          <h3 style="font-size: 20px;" class="responsive-text">{{ card.title }}</h3>
-          <p [ngStyle]="{'color': getTextColor(card.description)}" style="font-weight: bold; font-size: 1.5rem;">{{ card.description }}</p>
-          <p style="font-weight: bold; font-size: 16px;" class="responsive-text">{{card.capacity}}</p>
+          <h3>Team name: {{ card.title }}</h3>
+          <p>Description: {{ card.description }}</p>
+          <p>Ability: {{ card.capacity }}</p>
+          <p>Temperature: {{ card.temperature }}</p>
+          <p>Humidity: {{ card.humidity }}</p>
+          <p>Latest Maintenance: {{ card.lastMaintenance }}</p>
+          <p>Next Maintenance: {{ card.nextMaintenance }}</p>
+          <p>Model: {{ card.model }}</p>
+          <p>Serial Number: {{ card.serialNumber }}</p>
+          <p>Installation Date: {{ card.installedDate }}</p>
+        </div>
+        <!-- Botón de eliminación -->
+        <div class="button-container">
+          <button class="delete-button" (click)="deleteFridge(card.id)">Delete Equipment</button>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Botón para agregar equipo de refrigeración -->
+  <div class="button-container">
+    <button (click)="toggleAddForm()" class="add-equipment-button">Add refrigeration equipment</button>
+  </div>
+
+  <!-- Formulario para agregar equipo de refrigeración -->
+  <div *ngIf="isFormVisible" class="add-equipment-form">
+    <h3>Add New Refrigeration Equipment</h3>
+    <form [formGroup]="inventoryForm" (ngSubmit)="addFridge()">
+      <div class="form-group">
+        <label for="title">Team name:</label>
+        <input id="title" formControlName="title" type="text" required />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <input id="description" formControlName="description" type="text" required />
+      </div>
+
+      <div class="form-group">
+        <label for="capacity">Ability:</label>
+        <input id="capacity" formControlName="capacity" type="text" required />
+      </div>
+
+      <div class="form-group">
+        <label for="photo">Upload Team Image:</label>
+        <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+        <div class="photo-previews">
+          <img *ngIf="selectedFiles.length > 0" [src]="selectedFiles[0]" alt="Vista previa de la imagen" class="photo-preview" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="temperature">Temperature:</label>
+        <input id="temperature" formControlName="temperature" type="text" required />
+      </div>
+
+      <div class="form-group">
+        <label for="humidity">Humidity:</label>
+        <input id="humidity" formControlName="humidity" type="text" required />
+      </div>
+
+      <div class="form-group">
+        <label for="lastMaintenance">Latest Maintenance:</label>
+        <input id="lastMaintenance" formControlName="lastMaintenance" type="date" required />
+      </div>
+
+      <div class="form-group">
+        <label for="nextMaintenance">Next Maintenance:</label>
+        <input id="nextMaintenance" formControlName="nextMaintenance" type="date" required />
+      </div>
+
+      <div class="form-group">
+        <label for="model">Model:</label>
+        <input id="model" formControlName="model" type="text" required />
+      </div>
+
+      <div class="form-group">
+        <label for="serialNumber">Serial Number:</label>
+        <input id="serialNumber" formControlName="serialNumber" type="text" required />
+      </div>
+
+      <div class="form-group">
+        <label for="installedDate">Installation Date:</label>
+        <input id="installedDate" formControlName="installedDate" type="date" required />
+      </div>
+
+      <div class="button-container">
+        <button type="submit" class="add-equipment-button">Add</button>
+      </div>
+    </form>
+  </div>
 </div>
+
+
+
+
+
+
