@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Secular+One&display=swap');
 
-
 .container {
   padding: 2em;
 }
@@ -21,32 +20,42 @@
   overflow: hidden;
   background-color: #ffffff; /* Fondo blanco para mejor contraste */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .card img {
   width: 100%;
-  height: auto;
+  height: 200px;
+  object-fit: cover;
 }
 
 .card-info {
   padding: 1em;
+  flex-grow: 1;
 }
 
 .add-equipment-button {
   margin: 1em 0;
-  padding: 1em 2em;
-  background-color: #9B59B6;
+  padding: 0.75em 1.5em;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 1.5em;
+  font-size: 1.2em;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .add-equipment-button:hover {
-  background-color: #9148ac;
+  background-color: #0056b3;
   transform: scale(1.05);
+}
+
+.add-equipment-button.large {
+  font-size: 1.5em;
+  padding: 1em 2em;
 }
 
 .add-equipment-form {
@@ -84,6 +93,57 @@ textarea:focus {
   outline: none;
 }
 
+.photo-previews {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.photo-preview {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.photo-preview img {
+  width: 100%;
+  height: auto;
+}
+
+.button-container {
+  text-align: center; /* Alinear el botón al centro */
+  margin-bottom: 1em;
+}
+
+button[type="submit"] {
+  width: 100%;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.input-invalid {
+  border-color: red !important;
+}
+
 .delete-button {
   background-color: #dc3545;  /* Rojo para destacar */
   color: white;
@@ -92,12 +152,44 @@ textarea:focus {
   border-radius: 5px;
   cursor: pointer;
   margin-top: 15px;
-  width: 100%;  /* Ajustar al ancho de la tarjeta */
+  width: 100%;  /* Asegurarse de que sea visible y se ajuste a la tarjeta */
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .delete-button:hover {
-  background-color: #b02a37;  /* Color más oscuro al hacer hover */
+  background-color: #b02a37;
   transform: scale(1.05);
+}
+
+.add-equipment-form {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.add-equipment-button {
+  background-color: #9148ac;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1.5em;
+}
+
+.add-equipment-button:hover {
+  background-color: #9148ac;
 }
 
