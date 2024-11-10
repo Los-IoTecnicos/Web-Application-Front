@@ -28,6 +28,7 @@ import { HomeComponent } from './public/pages/model/home/home.component';
 import {MatGridListModule} from "@angular/material/grid-list";
 import { CollaborateComponent } from './public/pages/model/collaborate/collaborate.component';
 import { ProfileComponent } from './public/pages/model/profile/profile.component';
+import { DetailsComponent } from './public/pages/model/details/details.component';
 @NgModule({
     declarations: [
         AppComponent,
@@ -40,6 +41,7 @@ import { ProfileComponent } from './public/pages/model/profile/profile.component
         HomeComponent,
         CollaborateComponent,
         ProfileComponent,
+        DetailsComponent,
     ],
   imports: [
     AppRoutingModule,

@@ -8,7 +8,7 @@ import {InventaryComponent} from "./public/pages/model/inventary/inventary.compo
 import {HomeComponent} from "./public/pages/model/home/home.component";
 import {CollaborateComponent} from "./public/pages/model/collaborate/collaborate.component";
 import {ProfileComponent} from "./public/pages/model/profile/profile.component";
-
+import {DetailsComponent} from "./public/pages/model/details/details.component";
 
 
 const routes: Routes = [
@@ -18,6 +18,8 @@ const routes: Routes = [
   { path: 'inventory', component : InventaryComponent  },
   { path: 'team', component : CollaborateComponent  },
   { path: 'profile', component : ProfileComponent  },
+  {path:'details',component:DetailsComponent},
+
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: '**', component:PageNotFoundComponent},
 

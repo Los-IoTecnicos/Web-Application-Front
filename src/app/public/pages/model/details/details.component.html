@@ -1,0 +1,55 @@
+<app-side-navigator-bar></app-side-navigator-bar>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card" *ngIf="equipmentDetails">
+        <div class="card-header">
+          <h2>Detalles del Equipo</h2>
+        </div>
+        <div class="card-body">
+          <p><strong>Título:</strong> {{ equipmentDetails.title }}</p>
+          <p><strong>Descripción:</strong> {{ equipmentDetails.description }}</p>
+          <p><strong>Capacidad:</strong> {{ equipmentDetails.capacity }}</p>
+          <p><strong>Temperatura:</strong> {{ equipmentDetails.temperature }}</p>
+          <p><strong>Humedad:</strong> {{ equipmentDetails.humidity }}</p>
+          <p><strong>Último mantenimiento:</strong> {{ equipmentDetails.lastMaintenance }}</p>
+          <p><strong>Próximo mantenimiento:</strong> {{ equipmentDetails.nextMaintenance }}</p>
+          <p><strong>Modelo:</strong> {{ equipmentDetails.model }}</p>
+          <p><strong>Número de serie:</strong> {{ equipmentDetails.serialNumber }}</p>
+          <p><strong>Fecha de instalación:</strong> {{ equipmentDetails.installedDate }}</p>
+          <div *ngIf="equipmentDetails.image">
+            <img [src]="equipmentDetails.image" alt="Imagen del equipo" class="img-fluid" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6" >
+      <div class="card" *ngIf="produtos && produtos.length > 0">
+        <div class="card-header">
+          <h2>Detalles de Productos</h2>
+        </div>
+        <div class="card-body" >
+          <div class="row">
+            <div class="col-md-4" *ngFor="let produto of produtos">
+              <div class="product-card">
+                <h3>{{ produto.nombre }}</h3>
+                <p><strong>Estado:</strong> {{ produto.estado }}</p>
+                <p><strong>Marca:</strong> {{ produto.marca }}</p>
+                <p><strong>Cantidad:</strong> {{ produto.cantidad }}</p>
+                <div *ngIf="produto.photo && produto.photo.length > 0">
+                  <img [src]="produto.photo[0]" alt="Imagen del producto" class="img-fluid" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!produtos && !equipmentDetails">
+    <p>No se encontraron detalles del producto o equipo.</p>
+  </div>
+</div>

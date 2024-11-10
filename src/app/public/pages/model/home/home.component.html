@@ -19,13 +19,15 @@
           <p>Serial Number: {{ card.serialNumber }}</p>
           <p>Installation Date: {{ card.installedDate }}</p>
         </div>
-        <!-- Botón de eliminación -->
         <div class="button-container">
           <button class="delete-button" (click)="deleteFridge(card.id)">Delete Equipment</button>
+          <!-- Botón para ver detalles -->
+          <button (click)="viewDetails(card)">Ver detalles</button>
         </div>
       </div>
     </div>
   </section>
+  
 
   <!-- Botón para agregar equipo de refrigeración -->
   <div class="button-container">

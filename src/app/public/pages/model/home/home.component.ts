@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { NgxImageCompressService } from 'ngx-image-compress';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -16,7 +16,7 @@ export class HomeComponent {
   isFormVisible = false; // El formulario está oculto por defecto
   apiUrl = 'http://localhost:3000/equipment'; // Cambié la URL de la API según tu solicitud
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private imageCompress: NgxImageCompressService) {
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private imageCompress: NgxImageCompressService,private router:Router) {
     // Inicializar el formulario con validaciones requeridas
     this.inventoryForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -35,6 +35,16 @@ export class HomeComponent {
     this.loadCardsFromApi();
   }
 
+  viewDetails(card: any) {
+    // Guarda el título del equipo en el local storage
+    localStorage.setItem('selectedFridgeTitle', card.title);
+    console.log(localStorage.getItem('selectedFridgeTitle')); // Verifica si el título se guarda correctamente
+    // Navega al componente de detalles
+    this.router.navigate(['/details']);
+  }
+  
+
+
   // Método para obtener las cards desde la API
   loadCardsFromApi() {
     this.http.get<any[]>(this.apiUrl).subscribe(
@@ -51,6 +61,7 @@ export class HomeComponent {
       }
     );
   }
+
 
   // Inicializar tarjetas predeterminadas si la API falla o no tiene datos
   initializeDefaultCards() {
