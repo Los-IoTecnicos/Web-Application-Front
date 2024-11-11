@@ -107,8 +107,8 @@
           </label>
           <div class="photo-previews">
             <div class="photo-preview" *ngFor="let file of selectedFiles; let i = index">
-              <img [src]="file" alt="Vista previa" />
-              <button class="delete-button" (click)="removeImage(i)">X</button> <!-- Botón para eliminar la imagen -->
+              <img [src]="file" alt="Preview image" />
+              <button class="delete-button" (click)="removeImage(i)">X</button>
             </div>
           </div>
         </div>
@@ -124,7 +124,7 @@
 
     <div class="product-grid">
       <div class="product-card" *ngFor="let product of tempProducts">
-        <img [src]="product.photo[0]" alt="Product photo" class="product-photo">
+        <img [src]="product.photo?.length > 0 ? product.photo[0] : 'assets/images/placeholder.png'" alt="Product photo" class="product-photo">
         <h3>{{ product.nombre }}</h3>
         <p>Brand: {{ product.marca }}</p>
         <p>Date: {{ product.fecha }}</p>
@@ -134,4 +134,30 @@
       </div>
     </div>
   </div>
+
+  <!-- Fondo semitransparente cuando la tarjeta de detalles está visible -->
+  <div class="overlay" *ngIf="selectedProduct" (click)="closeCard()"></div>
+
+  <!-- Detalles del Producto Seleccionado -->
+  <div class="selected-product-card" *ngIf="selectedProduct">
+    <div class="card-details">
+      <h2>{{ selectedProduct?.nombre }}</h2>
+      <img [src]="selectedProduct?.photo[0]" alt="Product photo" class="product-photo">
+      <p><strong>Estado:</strong> {{ selectedProduct?.estado }}</p>
+      <p><strong>Fecha de Ingreso:</strong> {{ selectedProduct?.fecha }}</p>
+      <p><strong>Marca:</strong> {{ selectedProduct?.marca }}</p>
+      <p><strong>Cantidad:</strong> {{ selectedProduct?.cantidad }}</p>
+      <p><strong>Rubro:</strong> {{ selectedProduct?.rubro }}</p>
+      <p><strong>Detalles:</strong> {{ selectedProduct?.detalles }}</p>
+      <button (click)="closeCard()">Close</button>
+    </div>
+  </div>
 </div>
+
+
+
+
+
+
+
+
