@@ -1,107 +1,159 @@
 <app-side-navigator-bar></app-side-navigator-bar>
 
 <div class="container">
-  <!-- Sección de Equipos de Refrigeración -->
+  <!-- Refrigeration Equipment Section -->
   <section class="cards">
     <h2 class="centered-text">Refrigeration Equipment</h2>
     <div class="card-grid">
       <div class="card" *ngFor="let card of cards">
-        <img [src]="card.image" alt="Imagen del equipo">
+        <img [src]="card.image || 'https://via.placeholder.com/300x180?text=No+Image'" alt="Equipment Image">
         <div class="card-info">
-          <h3>Team name: {{ card.title }}</h3>
-          <p>Description: {{ card.description }}</p>
-          <p>Ability: {{ card.capacity }}</p>
-          <p>Temperature: {{ card.temperature }}</p>
-          <p>Humidity: {{ card.humidity }}</p>
-          <p>Latest Maintenance: {{ card.lastMaintenance }}</p>
-          <p>Next Maintenance: {{ card.nextMaintenance }}</p>
-          <p>Model: {{ card.model }}</p>
-          <p>Serial Number: {{ card.serialNumber }}</p>
-          <p>Installation Date: {{ card.installedDate }}</p>
+          <h3 class="responsive-text">{{ card.title }}</h3>
+          <p [ngStyle]="{'color': getTextColor(card.description)}" style="font-weight: bold; font-size: 1.2rem;">
+            {{ card.description }}
+          </p>
+          <p style="font-weight: bold; font-size: 1rem;" class="responsive-text">{{ card.capacity }}</p>
         </div>
         <div class="button-container">
-          <button class="delete-button" (click)="deleteFridge(card.id)">Delete Equipment</button>
-          <!-- Botón para ver detalles -->
-          <button (click)="viewDetails(card)">Ver detalles</button>
+          <button class="details-button" (click)="viewDetails(card)">View Details</button>
+          <button class="delete-button" (click)="deleteFridge(card.id)">Delete</button>
         </div>
       </div>
     </div>
   </section>
-  
 
-  <!-- Botón para agregar equipo de refrigeración -->
+  <!-- Add Equipment Button -->
   <div class="button-container">
-    <button (click)="toggleAddForm()" class="add-equipment-button">Add refrigeration equipment</button>
+    <button (click)="toggleAddForm()" class="add-equipment-button">Add Refrigeration Equipment</button>
   </div>
 
-  <!-- Formulario para agregar equipo de refrigeración -->
-  <div *ngIf="isFormVisible" class="add-equipment-form">
-    <h3>Add New Refrigeration Equipment</h3>
-    <form [formGroup]="inventoryForm" (ngSubmit)="addFridge()">
-      <div class="form-group">
-        <label for="title">Team name:</label>
-        <input id="title" formControlName="title" type="text" required />
-      </div>
-
-      <div class="form-group">
-        <label for="description">Description:</label>
-        <input id="description" formControlName="description" type="text" required />
-      </div>
-
-      <div class="form-group">
-        <label for="capacity">Ability:</label>
-        <input id="capacity" formControlName="capacity" type="text" required />
-      </div>
-
-      <div class="form-group">
-        <label for="photo">Upload Team Image:</label>
-        <input type="file" (change)="onFileSelected($event)" accept="image/*" />
-        <div class="photo-previews">
-          <img *ngIf="selectedFiles.length > 0" [src]="selectedFiles[0]" alt="Vista previa de la imagen" class="photo-preview" />
+  <!-- Add Equipment Form as Card -->
+  <div *ngIf="isFormVisible" class="modal-overlay">
+    <div class="form-card">
+      <h3>Add New Refrigeration Equipment</h3>
+      <form [formGroup]="inventoryForm" (ngSubmit)="addFridge()">
+        <!-- Team Name -->
+        <div class="form-group">
+          <label for="title">Team Name:</label>
+          <input id="title" formControlName="title" type="text" required />
+          <div *ngIf="submitted && inventoryForm.controls['title'].invalid" class="error-message">
+            Team Name is required.
+          </div>
         </div>
-      </div>
-
-      <div class="form-group">
-        <label for="temperature">Temperature:</label>
-        <input id="temperature" formControlName="temperature" type="text" required />
-      </div>
-
-      <div class="form-group">
-        <label for="humidity">Humidity:</label>
-        <input id="humidity" formControlName="humidity" type="text" required />
-      </div>
-
-      <div class="form-group">
-        <label for="lastMaintenance">Latest Maintenance:</label>
-        <input id="lastMaintenance" formControlName="lastMaintenance" type="date" required />
-      </div>
-
-      <div class="form-group">
-        <label for="nextMaintenance">Next Maintenance:</label>
-        <input id="nextMaintenance" formControlName="nextMaintenance" type="date" required />
-      </div>
-
-      <div class="form-group">
-        <label for="model">Model:</label>
-        <input id="model" formControlName="model" type="text" required />
-      </div>
-
-      <div class="form-group">
-        <label for="serialNumber">Serial Number:</label>
-        <input id="serialNumber" formControlName="serialNumber" type="text" required />
-      </div>
-
-      <div class="form-group">
-        <label for="installedDate">Installation Date:</label>
-        <input id="installedDate" formControlName="installedDate" type="date" required />
-      </div>
-
-      <div class="button-container">
-        <button type="submit" class="add-equipment-button">Add</button>
-      </div>
-    </form>
+        <!-- Description -->
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <input id="description" formControlName="description" type="text" required />
+          <div *ngIf="submitted && inventoryForm.controls['description'].invalid" class="error-message">
+            Description is required.
+          </div>
+        </div>
+        <!-- Capacity -->
+        <div class="form-group">
+          <label for="capacity">Capacity:</label>
+  <input
+    id="capacity"
+    formControlName="capacity"
+    type="number"
+    required
+    min="0" max="100"
+  />
+  <div *ngIf="submitted && inventoryForm.controls['capacity'].errors" class="error-messages">
+    <span *ngIf="inventoryForm.controls['capacity'].hasError('required')">
+      Capacity is required.
+    </span>
+    <span *ngIf="inventoryForm.controls['capacity'].hasError('min')">
+      Capacity cannot be less than 0%.
+    </span>
+    <span *ngIf="inventoryForm.controls['capacity'].hasError('max')">
+      Capacity cannot exceed 100%.
+    </span>
+  </div>
+        </div>
+        <!-- Image Upload -->
+        <div class="form-group">
+          <label for="photo">Upload Team Image:</label>
+          <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+          <div class="photo-previews">
+            <img *ngIf="selectedFiles.length > 0" [src]="selectedFiles[0]" alt="Image Preview" class="photo-preview" />
+          </div>
+        </div>
+        <!-- Temperature -->
+        <div class="form-group">
+          <label for="temperature">Temperature:</label>
+          <input
+    id="temperature"
+    formControlName="temperature"
+    type="number"
+    required
+    min="-50" max="50" />
+  />
+          <div *ngIf="submitted && inventoryForm.controls['temperature'].invalid" class="error-message">
+            Temperature is required, only -50 a 50.
+          </div>
+        </div>
+        <!-- Humidity -->
+        <div class="form-group">
+          <label for="humidity">Humidity:</label>
+          <input id="humidity" formControlName="humidity" type="text" required />
+          <div *ngIf="submitted && inventoryForm.controls['humidity'].invalid" class="error-message">
+            Humidity is required.
+          </div>
+        </div>
+        <!-- Last Maintenance -->
+        <div class="form-group">
+          <label for="lastMaintenance">Latest Maintenance:</label>
+          <input id="lastMaintenance" formControlName="lastMaintenance" type="date" required />
+          <div *ngIf="submitted && inventoryForm.controls['lastMaintenance'].invalid" class="error-message">
+            Latest Maintenance is required.
+          </div>
+        </div>
+        <!-- Next Maintenance -->
+        <div class="form-group">
+          <label for="nextMaintenance">Next Maintenance:</label>
+          <input id="nextMaintenance" formControlName="nextMaintenance" type="date" required />
+          <div *ngIf="submitted && inventoryForm.controls['nextMaintenance'].invalid" class="error-message">
+            Next Maintenance is required.
+          </div>
+        </div>
+        <!-- Model -->
+        <div class="form-group">
+          <label for="model">Model:</label>
+          <input id="model" formControlName="model" type="text" required />
+          <div *ngIf="submitted && inventoryForm.controls['model'].invalid" class="error-message">
+            Model is required.
+          </div>
+        </div>
+        <!-- Serial Number -->
+        <div class="form-group">
+          <label for="serialNumber">Serial Number:</label>
+          <input id="serialNumber" formControlName="serialNumber" type="text" required />
+          <div *ngIf="submitted && inventoryForm.controls['serialNumber'].invalid" class="error-message">
+            Serial Number is required.
+          </div>
+        </div>
+        <!-- Installation Date -->
+        <div class="form-group">
+          <label for="installedDate">Installation Date:</label>
+          <input id="installedDate" formControlName="installedDate" type="date" required />
+          <div *ngIf="submitted && inventoryForm.controls['installedDate'].invalid" class="error-message">
+            Installation Date is required.
+          </div>
+        </div>
+        <!-- Buttons -->
+        <div class="button-container">
+          <button type="submit" class="add-equipment-button">Add</button>
+          <button type="button" class="close-button" (click)="toggleAddForm()">Cancel</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
+
+
+
+
+
 
 
 
