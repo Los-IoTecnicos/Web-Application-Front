@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -10,19 +11,24 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent {
   inventoryForm: FormGroup;
-  cards: any[] = [];  // Almacena las cards actuales
-  selectedFiles: string[] = [];
+  cards: any[] = []; // Stores current cards
+  selectedFiles: string[] = []; // For image upload
   submitted = false;
-  isFormVisible = false; // El formulario está oculto por defecto
-  apiUrl = 'http://localhost:3000/equipment'; // Cambié la URL de la API según tu solicitud
+  isFormVisible = false; // Form visibility toggle
+  apiUrl = 'http://localhost:3000/equipment'; // API URL for equipment
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private imageCompress: NgxImageCompressService,private router:Router) {
-    // Inicializar el formulario con validaciones requeridas
+  constructor(
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
+    private imageCompress: NgxImageCompressService,
+    private router: Router
+  ) {
+    // Initialize form with required validations
     this.inventoryForm = this.formBuilder.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
-      capacity: ['', Validators.required],
-      temperature: ['', Validators.required],
+      capacity: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
+      temperature: ['', [Validators.required, Validators.min(-50), Validators.max(50)]],
       humidity: ['', Validators.required],
       lastMaintenance: ['', Validators.required],
       nextMaintenance: ['', Validators.required],
@@ -31,42 +37,46 @@ export class HomeComponent {
       installedDate: ['', Validators.required]
     });
 
-    // Obtener equipos desde la API al cargar el componente
+    // Load cards from API on component load
     this.loadCardsFromApi();
   }
 
+  // Function to view details of a specific card
   viewDetails(card: any) {
-    // Guarda el título del equipo en el local storage
+    // Save the title of the selected card in local storage
     localStorage.setItem('selectedFridgeTitle', card.title);
-    console.log(localStorage.getItem('selectedFridgeTitle')); // Verifica si el título se guarda correctamente
-    // Navega al componente de detalles
-    this.router.navigate(['/details']);
+    console.log(localStorage.getItem('selectedFridgeTitle')); // Verify storage
+    // Navigate to the details component
+    this.router.navigate(['/details'], { queryParams: { id: card.id } });
   }
-  
 
+  // Function to dynamically set text color based on description
+  getTextColor(description: string): string {
+    return description === 'Active' ? 'green' : 'red';
+  }
 
-  // Método para obtener las cards desde la API
+  // Method to load cards from the API
   loadCardsFromApi() {
     this.http.get<any[]>(this.apiUrl).subscribe(
       (data) => {
         if (data && data.length > 0) {
-          this.cards = data; // Asigna los equipos obtenidos desde la API
+          this.cards = data; // Assign cards fetched from the API
         } else {
-          this.initializeDefaultCards(); // Si no hay datos, inicializar con las predeterminadas
+          this.initializeDefaultCards(); // Initialize with default cards if API returns no data
         }
       },
       (error) => {
-        console.error('Error al cargar los equipos:', error);
-        this.initializeDefaultCards(); // Si hay error, inicializar con las predeterminadas
+        console.error('Error loading equipment:', error);
+        this.initializeDefaultCards(); // Initialize with default cards on error
       }
     );
   }
 
-
-  // Inicializar tarjetas predeterminadas si la API falla o no tiene datos
+  // Initialize default cards if API fails or returns no data
   initializeDefaultCards() {
     this.cards = [
       {
+        id: 1,
         image: 'https://cdn.discordapp.com/attachments/1273824394451615826/1288777187243200542/image_refrigerator.png',
         title: 'Refrigerator A1',
         description: 'Active',
@@ -80,6 +90,7 @@ export class HomeComponent {
         installedDate: '2023-01-10'
       },
       {
+        id: 2,
         image: 'https://cdn.discordapp.com/attachments/1273824394451615826/1288777187243200542/image_refrigerator.png',
         title: 'Refrigerator EA2',
         description: 'Under maintenance',
@@ -93,6 +104,7 @@ export class HomeComponent {
         installedDate: '2023-02-15'
       },
       {
+        id: 3,
         image: 'https://cdn.discordapp.com/attachments/1273824394451615826/1288777187243200542/image_refrigerator.png',
         title: 'Refrigerator EA3',
         description: 'Active',
@@ -106,6 +118,7 @@ export class HomeComponent {
         installedDate: '2022-11-20'
       },
       {
+        id: 4,
         image: 'https://cdn.discordapp.com/attachments/1273824394451615826/1288777187243200542/image_refrigerator.png',
         title: 'Refrigerator EA6',
         description: 'Active',
@@ -120,12 +133,14 @@ export class HomeComponent {
       }
     ];
   }
+
+  // Method to delete a specific fridge
   deleteFridge(id: number) {
-    // Realizar la solicitud DELETE a la API
+    console.log(`Attempting to delete equipment with ID: ${id} from ${this.apiUrl}/${id}`);
+    
     this.http.delete(`${this.apiUrl}/${id}`).subscribe(
       () => {
         console.log('Equipment deleted successfully');
-        // Filtrar el equipo eliminado de la lista local
         this.cards = this.cards.filter(card => card.id !== id);
       },
       (error) => {
@@ -134,13 +149,15 @@ export class HomeComponent {
       }
     );
   }
+  
+  
 
-  // Método para alternar la visibilidad del formulario
+  // Toggle the visibility of the add equipment form
   toggleAddForm() {
     this.isFormVisible = !this.isFormVisible;
   }
 
-  // Método para manejar la selección de archivos
+  // Handle file selection for image upload
   onFileSelected(event: any) {
     const files = event.target.files;
     if (files.length > 0) {
@@ -149,10 +166,10 @@ export class HomeComponent {
       reader.onload = (e: any) => {
         const imageBase64 = e.target.result;
 
-        // Comprimir la imagen antes de almacenarla
+        // Compress the image before storing it
         this.imageCompress.compressFile(imageBase64, -1, 50, 50).then(
           compressedImage => {
-            this.selectedFiles = [compressedImage]; // Guardar la imagen comprimida
+            this.selectedFiles = [compressedImage]; // Save the compressed image
           }
         );
       };
@@ -160,28 +177,26 @@ export class HomeComponent {
     }
   }
 
-  // Añadir un nuevo equipo de refrigeración
+  // Add a new refrigeration equipment
   addFridge() {
     this.submitted = true;
-
-    // Verificar si el formulario es inválido
+  
     if (this.inventoryForm.invalid) {
       alert("Please complete all required fields.");
       return;
     }
-
+  
     const newFridge = {
       ...this.inventoryForm.value,
-      image: this.selectedFiles.length > 0 ? this.selectedFiles[0] : 'https://cdn.discordapp.com/attachments/1273824394451615826/1288777187243200542/image_refrigerator.png' // Valor predeterminado si no se selecciona una imagen
+      image: this.selectedFiles.length > 0 ? this.selectedFiles[0] : 'https://via.placeholder.com/300x180?text=No+Image'
     };
-
-    // Enviar el nuevo equipo a la API para almacenarlo
+  
     this.http.post(this.apiUrl, newFridge).subscribe(
-      (response) => {
+      (response: any) => {
         console.log('Equipment added:', response);
-        this.cards.push(newFridge); // Agregar el equipo a la lista local
+        this.cards.push(response); // El servidor retorna el objeto con el ID generado
         this.resetForm();
-        this.isFormVisible = false; // Ocultar el formulario después de agregar el equipo
+        this.isFormVisible = false;
       },
       (error) => {
         console.error('Error adding equipment:', error);
@@ -189,10 +204,14 @@ export class HomeComponent {
       }
     );
   }
+  
+  
 
+  // Reset the form after adding equipment
   resetForm() {
     this.inventoryForm.reset();
     this.selectedFiles = [];
     this.submitted = false;
   }
 }
+
