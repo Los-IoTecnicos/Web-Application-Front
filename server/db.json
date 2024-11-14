@@ -235,9 +235,9 @@
   ],
   "equipment": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Refrigerador EA1",
-      "description": "Activo",
+      "description": "Active",
       "capacity": "Capacidad: 80%",
       "image": "https://i.imgur.com/dEs1YQN.png",
       "temperature": "-18°C",
@@ -249,7 +249,7 @@
       "installedDate": "2023-01-10"
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "Congelador DX2",
       "description": "En mantenimiento",
       "capacity": "Capacidad: 60%",
