@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
-// Definición de la interfaz Product
 export interface Product {
   id: string;
   nombre: string;
@@ -15,7 +14,6 @@ export interface Product {
   photo: string | string[];
 }
 
-// Definición de la interfaz Equipment
 export interface Equipment {
   id: number;
   title: string;
@@ -37,26 +35,26 @@ export interface Equipment {
   styleUrls: ['./details.component.css']
 })
 export class DetailsComponent implements OnInit {
-  produtos: Product[] | null = [];  // Cambiar a un array para almacenar múltiples productos
-  equipmentDetails: Equipment | null = null;  // Para almacenar detalles del equipo
-  fridgeTitle: string | null = null;  // Para almacenar el título del equipo seleccionado
+  produtos: Product[] | null = [];
+  equipmentDetails: Equipment | null = null;
+  fridgeTitle: string | null = null;
+  showAlert: boolean = true;
 
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.fridgeTitle = localStorage.getItem('selectedFridgeTitle');
-    
-    this.loadProducts();  // Cargar todos los productos
+    this.loadProducts();
     if (this.fridgeTitle) {
-      this.loadEquipment(this.fridgeTitle);  // Cargar detalles del equipo si hay un título
+      this.loadEquipment(this.fridgeTitle);
     }
   }
 
   loadProducts(): void {
-    const url = 'http://localhost:3000/productos';  // Asegúrate de que esta URL sea correcta
+    const url = 'http://localhost:3000/productos';
     this.http.get<Product[]>(url).subscribe(
       (products: Product[]) => {
-        this.produtos = products.slice(0, 6);  // Obtener solo los primeros 6 productos
+        this.produtos = products.slice(0, 6);
       },
       (error) => {
         console.error('Error al cargar los productos:', error);
@@ -65,14 +63,27 @@ export class DetailsComponent implements OnInit {
   }
 
   loadEquipment(title: string): void {
-    const url = 'http://localhost:3000/equipment';  // Asegúrate de que esta URL sea correcta
+    const url = 'http://localhost:3000/equipment';
     this.http.get<Equipment[]>(url).subscribe(
       (equipmentList: Equipment[]) => {
-        this.equipmentDetails = equipmentList.find(equip => equip.title === title) || null;  // Encuentra el equipo por título
+        this.equipmentDetails = equipmentList.find(equip => equip.title === title) || null;
       },
       (error) => {
         console.error('Error al cargar los detalles del equipo:', error);
       }
     );
+  }
+
+  isMaintenanceDue(): boolean {
+    if (this.equipmentDetails && this.equipmentDetails.nextMaintenance && this.showAlert) {
+      const nextMaintenanceDate = new Date(this.equipmentDetails.nextMaintenance);
+      const today = new Date();
+      return nextMaintenanceDate < today;
+    }
+    return false;
+  }
+
+  closeAlert(): void {
+    this.showAlert = false;
   }
 }
