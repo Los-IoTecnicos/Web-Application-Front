@@ -7,15 +7,17 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
   inventoryForm: FormGroup;
   cards: any[] = []; // Stores current cards
   selectedFiles: string[] = []; // For image upload
-  submitted = false;
-  isFormVisible = false; // Form visibility toggle
-  apiUrl = 'http://localhost:3000/equipment'; // API URL for equipment
+  submitted = false; // Controls if the form is submitted
+  isFormVisible = false; // Controls the visibility of the form
+  apiUrl = 'http://localhost:3000/equipment'; // API URL
+  nextMaintenanceMinDate: string = ''; // Minimum date allowed for next maintenance
+  overdueAlert: string | null = null; // Alert message for overdue maintenance
 
   constructor(
     private formBuilder: FormBuilder,
@@ -23,7 +25,7 @@ export class HomeComponent {
     private imageCompress: NgxImageCompressService,
     private router: Router
   ) {
-    // Initialize form with required validations
+    // Initialize form with validations
     this.inventoryForm = this.formBuilder.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
@@ -34,50 +36,54 @@ export class HomeComponent {
       nextMaintenance: ['', Validators.required],
       model: ['', Validators.required],
       serialNumber: ['', Validators.required],
-      installedDate: ['', Validators.required]
+      installedDate: ['', Validators.required],
     });
 
-    // Load cards from API on component load
+    // Load cards from the API
     this.loadCardsFromApi();
   }
 
-  // Function to view details of a specific card
+  // Navigate to the details view
   viewDetails(card: any) {
-    // Save the title of the selected card in local storage
-    localStorage.setItem('selectedFridgeTitle', card.title);
-    console.log(localStorage.getItem('selectedFridgeTitle')); // Verify storage
-    // Navigate to the details component
-    this.router.navigate(['/details'], { queryParams: { id: card.id } });
+    this.checkMaintenanceAlert(card); // Check if maintenance is overdue
+    localStorage.setItem('selectedFridgeTitle', card.title); // Save the title in localStorage
+    this.router.navigate(['/details'], { queryParams: { id: card.id } }); // Redirect to the details page
   }
 
-  // Function to dynamically set text color based on description
+  // Check if maintenance is overdue and set the alert message
+  checkMaintenanceAlert(card: any): void {
+    const today = new Date().toISOString().split('T')[0];
+    if (card.nextMaintenance && card.nextMaintenance < today) {
+      this.overdueAlert = `Maintenance is overdue for ${card.title}. Please schedule it immediately.`;
+    } else {
+      this.overdueAlert = null;
+    }
+  }
+
+  // Change the text color dynamically based on the description
   getTextColor(description: string): string {
     return description === 'Active' ? 'green' : 'red';
   }
 
-  // Method to load cards from the API
+  // Load cards from the API
   loadCardsFromApi() {
     this.http.get<any[]>(this.apiUrl).subscribe(
       (data) => {
-        if (data && data.length > 0) {
-          this.cards = data; // Assign cards fetched from the API
-        } else {
-          this.initializeDefaultCards(); // Initialize with default cards if API returns no data
-        }
+        this.cards = data || []; // Assign data to the cards array
       },
       (error) => {
         console.error('Error loading equipment:', error);
-        this.initializeDefaultCards(); // Initialize with default cards on error
+        this.initializeDefaultCards(); // Load default cards on error
       }
     );
   }
 
-  // Initialize default cards if API fails or returns no data
+  // Initialize default cards
   initializeDefaultCards() {
     this.cards = [
       {
         id: 1,
-        image: 'https://cdn.discordapp.com/attachments/1273824394451615826/1288777187243200542/image_refrigerator.png',
+        image: 'https://via.placeholder.com/300x180?text=No+Image',
         title: 'Refrigerator A1',
         description: 'Active',
         capacity: 'Capacity: 80%',
@@ -87,91 +93,36 @@ export class HomeComponent {
         nextMaintenance: '2024-12-15',
         model: 'CoolMax 3000',
         serialNumber: 'CM3K-12345',
-        installedDate: '2023-01-10'
+        installedDate: '2023-01-10',
       },
-      {
-        id: 2,
-        image: 'https://cdn.discordapp.com/attachments/1273824394451615826/1288777187243200542/image_refrigerator.png',
-        title: 'Refrigerator EA2',
-        description: 'Under maintenance',
-        capacity: 'Capacity: 0%',
-        temperature: '-15°C',
-        humidity: '70%',
-        lastMaintenance: '2024-07-10',
-        nextMaintenance: '2024-11-10',
-        model: 'CoolMax 2000',
-        serialNumber: 'CM2K-67890',
-        installedDate: '2023-02-15'
-      },
-      {
-        id: 3,
-        image: 'https://cdn.discordapp.com/attachments/1273824394451615826/1288777187243200542/image_refrigerator.png',
-        title: 'Refrigerator EA3',
-        description: 'Active',
-        capacity: 'Capacity: 50%',
-        temperature: '-19°C',
-        humidity: '60%',
-        lastMaintenance: '2024-06-10',
-        nextMaintenance: '2024-12-10',
-        model: 'CoolMax 1000',
-        serialNumber: 'CM1K-45678',
-        installedDate: '2022-11-20'
-      },
-      {
-        id: 4,
-        image: 'https://cdn.discordapp.com/attachments/1273824394451615826/1288777187243200542/image_refrigerator.png',
-        title: 'Refrigerator EA6',
-        description: 'Active',
-        capacity: 'Capacity: 50%',
-        temperature: '-20°C',
-        humidity: '55%',
-        lastMaintenance: '2024-05-15',
-        nextMaintenance: '2024-11-15',
-        model: 'CoolMax 4000',
-        serialNumber: 'CM4K-98765',
-        installedDate: '2022-12-25'
-      }
     ];
   }
 
-  // Method to delete a specific fridge
+  // Delete a specific card
   deleteFridge(id: number) {
-    console.log(`Attempting to delete equipment with ID: ${id} from ${this.apiUrl}/${id}`);
-    
+    console.log(`Attempting to delete equipment with ID: ${id}`);
     this.http.delete(`${this.apiUrl}/${id}`).subscribe(
       () => {
-        console.log('Equipment deleted successfully');
-        this.cards = this.cards.filter(card => card.id !== id);
+        this.cards = this.cards.filter((card) => card.id !== id); // Remove the card locally
       },
-      (error) => {
-        console.error('Error deleting equipment:', error);
-        alert('Error deleting equipment. Please check the API connection.');
-      }
+      (error) => console.error('Error deleting equipment:', error)
     );
   }
-  
-  
 
-  // Toggle the visibility of the add equipment form
+  // Toggle the visibility of the add form
   toggleAddForm() {
     this.isFormVisible = !this.isFormVisible;
   }
 
-  // Handle file selection for image upload
+  // Handle image upload
   onFileSelected(event: any) {
-    const files = event.target.files;
-    if (files.length > 0) {
-      const file = files[0];
+    const file = event.target.files[0];
+    if (file) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        const imageBase64 = e.target.result;
-
-        // Compress the image before storing it
-        this.imageCompress.compressFile(imageBase64, -1, 50, 50).then(
-          compressedImage => {
-            this.selectedFiles = [compressedImage]; // Save the compressed image
-          }
-        );
+        this.imageCompress.compressFile(e.target.result, -1, 50, 50).then((compressedImage) => {
+          this.selectedFiles = [compressedImage]; // Save the compressed image
+        });
       };
       reader.readAsDataURL(file);
     }
@@ -180,32 +131,26 @@ export class HomeComponent {
   // Add a new refrigeration equipment
   addFridge() {
     this.submitted = true;
-  
+
+    // Check if the form is invalid
     if (this.inventoryForm.invalid) {
-      alert("Please complete all required fields.");
       return;
     }
-  
+
     const newFridge = {
       ...this.inventoryForm.value,
-      image: this.selectedFiles.length > 0 ? this.selectedFiles[0] : 'https://via.placeholder.com/300x180?text=No+Image'
+      image: this.selectedFiles[0] || 'https://via.placeholder.com/300x180?text=No+Image',
     };
-  
+
     this.http.post(this.apiUrl, newFridge).subscribe(
       (response: any) => {
-        console.log('Equipment added:', response);
-        this.cards.push(response); // El servidor retorna el objeto con el ID generado
-        this.resetForm();
-        this.isFormVisible = false;
+        this.cards.push(response); // Add the card to the local array
+        this.resetForm(); // Reset the form
+        this.isFormVisible = false; // Hide the form
       },
-      (error) => {
-        console.error('Error adding equipment:', error);
-        alert('Error adding equipment. Please check the API connection.');
-      }
+      (error) => console.error('Error adding equipment:', error)
     );
   }
-  
-  
 
   // Reset the form after adding equipment
   resetForm() {
@@ -213,5 +158,13 @@ export class HomeComponent {
     this.selectedFiles = [];
     this.submitted = false;
   }
-}
 
+  // Update the minimum date for the next maintenance
+  onLastMaintenanceChange(): void {
+    const lastMaintenanceDate = this.inventoryForm.get('lastMaintenance')?.value;
+    if (lastMaintenanceDate) {
+      this.nextMaintenanceMinDate = lastMaintenanceDate;
+      this.inventoryForm.get('nextMaintenance')?.updateValueAndValidity();
+    }
+  }
+}
