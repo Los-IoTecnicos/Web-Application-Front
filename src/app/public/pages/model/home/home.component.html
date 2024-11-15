@@ -51,24 +51,24 @@
         <!-- Capacity -->
         <div class="form-group">
           <label for="capacity">Capacity:</label>
-  <input
-    id="capacity"
-    formControlName="capacity"
-    type="number"
-    required
-    min="0" max="100"
-  />
-  <div *ngIf="submitted && inventoryForm.controls['capacity'].errors" class="error-messages">
-    <span *ngIf="inventoryForm.controls['capacity'].hasError('required')">
-      Capacity is required.
-    </span>
-    <span *ngIf="inventoryForm.controls['capacity'].hasError('min')">
-      Capacity cannot be less than 0%.
-    </span>
-    <span *ngIf="inventoryForm.controls['capacity'].hasError('max')">
-      Capacity cannot exceed 100%.
-    </span>
-  </div>
+          <input
+            id="capacity"
+            formControlName="capacity"
+            type="number"
+            required
+            min="0" max="100"
+          />
+          <div *ngIf="submitted && inventoryForm.controls['capacity'].errors" class="error-messages">
+            <span *ngIf="inventoryForm.controls['capacity'].hasError('required')">
+              Capacity is required.
+            </span>
+            <span *ngIf="inventoryForm.controls['capacity'].hasError('min')">
+              Capacity cannot be less than 0%.
+            </span>
+            <span *ngIf="inventoryForm.controls['capacity'].hasError('max')">
+              Capacity cannot exceed 100%.
+            </span>
+          </div>
         </div>
         <!-- Image Upload -->
         <div class="form-group">
@@ -82,14 +82,14 @@
         <div class="form-group">
           <label for="temperature">Temperature:</label>
           <input
-    id="temperature"
-    formControlName="temperature"
-    type="number"
-    required
-    min="-50" max="50" />
-  />
+            id="temperature"
+            formControlName="temperature"
+            type="number"
+            required
+            min="-50" max="50"
+          />
           <div *ngIf="submitted && inventoryForm.controls['temperature'].invalid" class="error-message">
-            Temperature is required, only -50 a 50.
+            Temperature is required, only -50 to 50.
           </div>
         </div>
         <!-- Humidity -->
@@ -103,7 +103,7 @@
         <!-- Last Maintenance -->
         <div class="form-group">
           <label for="lastMaintenance">Latest Maintenance:</label>
-          <input id="lastMaintenance" formControlName="lastMaintenance" type="date" required />
+          <input id="lastMaintenance" formControlName="lastMaintenance" type="date" required (change)="onLastMaintenanceChange()" />
           <div *ngIf="submitted && inventoryForm.controls['lastMaintenance'].invalid" class="error-message">
             Latest Maintenance is required.
           </div>
@@ -111,7 +111,7 @@
         <!-- Next Maintenance -->
         <div class="form-group">
           <label for="nextMaintenance">Next Maintenance:</label>
-          <input id="nextMaintenance" formControlName="nextMaintenance" type="date" required />
+          <input id="nextMaintenance" formControlName="nextMaintenance" type="date" required [min]="nextMaintenanceMinDate" />
           <div *ngIf="submitted && inventoryForm.controls['nextMaintenance'].invalid" class="error-message">
             Next Maintenance is required.
           </div>
@@ -148,9 +148,9 @@
       </form>
     </div>
   </div>
+
+  
 </div>
-
-
 
 
 
