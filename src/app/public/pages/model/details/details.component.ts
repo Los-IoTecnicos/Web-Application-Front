@@ -51,7 +51,7 @@ export class DetailsComponent implements OnInit {
   }
 
   loadProducts(): void {
-    const url = 'http://localhost:3000/productos';
+    const url = 'https://66f616ba436827ced975e4d6.mockapi.io/api/v1/product';
     this.http.get<Product[]>(url).subscribe(
       (products: Product[]) => {
         this.produtos = products.slice(0, 6);
@@ -63,7 +63,7 @@ export class DetailsComponent implements OnInit {
   }
 
   loadEquipment(title: string): void {
-    const url = 'http://localhost:3000/equipment';
+    const url = 'https://66f616ba436827ced975e4d6.mockapi.io/api/v1/refrigeration';
     this.http.get<Equipment[]>(url).subscribe(
       (equipmentList: Equipment[]) => {
         this.equipmentDetails = equipmentList.find(equip => equip.title === title) || null;
