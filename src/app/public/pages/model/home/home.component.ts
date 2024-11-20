@@ -15,7 +15,7 @@ export class HomeComponent {
   selectedFiles: string[] = []; // For image upload
   submitted = false; // Controls if the form is submitted
   isFormVisible = false; // Controls the visibility of the form
-  apiUrl = 'http://localhost:3000/equipment'; // API URL
+  apiUrl = 'https://66f616ba436827ced975e4d6.mockapi.io/api/v1/refrigeration'; // API URL
   nextMaintenanceMinDate: string = ''; // Minimum date allowed for next maintenance
   overdueAlert: string | null = null; // Alert message for overdue maintenance
 
@@ -69,6 +69,7 @@ export class HomeComponent {
   loadCardsFromApi() {
     this.http.get<any[]>(this.apiUrl).subscribe(
       (data) => {
+        console.log('Cards loaded from API:', data); // Log data
         this.cards = data || []; // Assign data to the cards array
       },
       (error) => {
@@ -100,12 +101,22 @@ export class HomeComponent {
 
   // Delete a specific card
   deleteFridge(id: number) {
-    console.log(`Attempting to delete equipment with ID: ${id}`);
-    this.http.delete(`${this.apiUrl}/${id}`).subscribe(
+    const deleteUrl = `${this.apiUrl}/${id}`;
+    console.log(`Attempting to delete equipment with URL: ${deleteUrl}`);
+    this.http.delete(deleteUrl).subscribe(
       () => {
-        this.cards = this.cards.filter((card) => card.id !== id); // Remove the card locally
+        console.log(`Equipment with ID: ${id} deleted successfully.`);
+        this.cards = this.cards.filter((card) => card.id !== id); // Remove the card from the array
       },
-      (error) => console.error('Error deleting equipment:', error)
+      (error) => {
+        if (error.status === 404) {
+          console.warn(`Equipment with ID: ${id} not found on the server.`);
+          this.cards = this.cards.filter((card) => card.id !== id); // Remove locally even if not found on server
+        } else {
+          console.error('Error deleting equipment:', error);
+          alert(`Failed to delete equipment. Error: ${error.message}`);
+        }
+      }
     );
   }
 
@@ -168,3 +179,5 @@ export class HomeComponent {
     }
   }
 }
+
+
