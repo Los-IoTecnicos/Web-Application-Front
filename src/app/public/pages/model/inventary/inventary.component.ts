@@ -40,7 +40,7 @@ export class InventaryComponent implements OnInit {
   }
 
   fetchProducts() {
-    this.http.get<any[]>('http://localhost:3000/productos').subscribe(
+    this.http.get<any[]>('https://66f616ba436827ced975e4d6.mockapi.io/api/v1/product').subscribe(
       (data) => {
         console.log('Productos obtenidos:', data);
         this.tempProducts = data;
@@ -91,7 +91,7 @@ export class InventaryComponent implements OnInit {
 
     console.log('Producto a agregar:', product);
 
-    this.http.post('http://localhost:3000/productos', product).subscribe(
+    this.http.post('https://66f616ba436827ced975e4d6.mockapi.io/api/v1/product', product).subscribe(
       (response) => {
         console.log('Producto agregado:', response);
         this.fetchProducts();
@@ -116,7 +116,7 @@ export class InventaryComponent implements OnInit {
 
   deleteProduct(product: any) {
     // Primero enviar una solicitud DELETE al servidor para eliminar el producto de la base de datos
-    this.http.delete(`http://localhost:3000/productos/${product.id}`).subscribe(
+    this.http.delete(`https://66f616ba436827ced975e4d6.mockapi.io/api/v1/product/${product.id}`).subscribe(
       (response) => {
         console.log('Producto eliminado del servidor:', response);
         
